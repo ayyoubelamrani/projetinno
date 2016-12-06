@@ -1,0 +1,69 @@
+/*!
+*  @file TIMEEError.hpp
+*  @brief Header of specialized error for TIMEE.
+*  @author CentraleSupelec, MICS, Pr. Magoules HPC Research Group (MRG).
+*  @author GBG, CAAK, MF
+*  @date 2016-10-13, 2016-10-13
+*/
+
+#ifndef GUARD_TIMEE_ERROR_HPP_
+#define GUARD_TIMEE_ERROR_HPP_
+
+// C++ headers
+
+// MRG TIMEE headers
+
+// MRG third-party headers
+
+// -- last error
+extern int TIMEE_ERR_CODE;
+
+// -- global error message string (extern TIMEE)
+const unsigned int TIMEE_ERR_MSG_SIZE = 2048;
+extern char TIMEE_ERR_MSG[TIMEE_ERR_MSG_SIZE];
+
+enum {
+  TIMEE_SUCCESS = 0,               // No error
+  TIMEE_ERR_OTHER = 100,           // Known error not in this list
+  TIMEE_ERR_UNKNOWN = 200,         // Unknown error
+  TIMEE_ERR_NOT_SUPPORTED = 301,
+  TIMEE_ERR_NOT_IMPLEMENTED = 302,
+
+  TIMEE_ERR_IO = 1000,
+  TIMEE_ERR_IO_FILE_OPEN = 1001,
+  TIMEE_ERR_IO_FILE_READ = 1002,
+  TIMEE_ERR_IO_FILE_WRITE = 1003,
+  TIMEE_ERR_IO_FILE_CLOSE = 1004,
+  TIMEE_ERR_IO_FILE_FORMAT = 1005,
+
+  TIMEE_ERR_ALGO = 2000,
+  TIMEE_ERR_ALGO_INVALID_VALUE = 2001,
+  TIMEE_ERR_ALGO_POSITIVE_VALUE = 2002,
+  TIMEE_ERR_ALGO_NULL_VALUE = 2003,
+  TIMEE_ERR_ALGO_NEGATIVE_VALUE = 2004,
+  TIMEE_ERR_ALGO_DIVISION_BY_ZERO = 2005,
+  TIMEE_ERR_ALGO_INDEX_OUT_OF_BOUNDS = 2006,
+  TIMEE_ERR_ALGO_INVALID_FLOATING_POINT_OPERATION = 2007,
+
+  TIMEE_ERR_MEM = 3000,
+  TIMEE_ERR_MEM_OUT_OF_CORE = 3001,
+  TIMEE_ERR_MEM_ALLOC = 3002,
+  TIMEE_ERR_MEM_INVALID_POINTER = 3003,
+  TIMEE_ERR_MEM_BOUND = 3004,
+
+  TIMEE_ERR_OS = 4000,
+  TIMEE_ERR_OS_WINDOWS = 4001,
+  TIMEE_ERR_OS_LINUX = 4002,
+  TIMEE_ERR_OS_MAC = 4003,
+  TIMEE_ERR_OS_MPI = 4004,
+  TIMEE_ERR_OS_OPENMP = 4005,
+  TIMEE_ERR_OS_CUDA = 4006,
+  TIMEE_ERR_OS_OPENCL = 4007,
+
+  TIMEE_ERR_DATA = 5000,      // Invalid data argument
+  TIMEE_ERR_DATA_ARG = 5001,  // Invalid argument of some other kind
+  TIMEE_ERR_DATA_TYPE = 5002, // Invalid datatype argument
+  TIMEE_ERR_DATA_INVALID_VALUE = 5003
+};
+
+#endif // #ifndef GUARD_TIMEE_ERROR_HPP_
