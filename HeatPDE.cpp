@@ -19,6 +19,10 @@
 // MRG third-party headers
 //#include <Alinea/Blap.hpp>
 
+// Including Eigen library
+
+#include </Users/TM/Travail/Programming/C/libraries/Eigen/Dense>
+
 /* __________________________________________________________________________ */
 
   // ---------------------------------------------------------------------------
@@ -41,14 +45,14 @@ HeatPDE<T,U>::HeatPDE ( void ) {
   m_dirich_val = NULL;
 //  m_vec_U0 = NULL;
 //  m_vec_U = NULL;
-  
+
   // -- discretization
   m_numb_step = 0;
   strcpy(m_discret_scheme, "BEULER");
-  
+
   // -- file I/O
   m_flag_fout = 0;
-  
+
 }
 
 /* __________________________________________________________________________ */
@@ -79,21 +83,21 @@ int HeatPDE<T,U>::Init (
   m_dirich_dof = dirich_dof;
   m_dirich_val = dirich_val;
 //  m_vec_U0 = vec_U0;
-  
+
   // -- discretization
   m_time_step = time_step;
   m_numb_step = numb_step;
   if (discret_scheme != NULL) {
     strcpy(m_discret_scheme, discret_scheme);
   }
-  
+
   // -- linear system
-  
+
   // uppercase keywords
   for (unsigned int i = 0; i < strlen(m_discret_scheme); i++) {
     m_discret_scheme[i] = toupper(m_discret_scheme[i]);
   }
-  
+
   // apply discretization scheme
   if (strcmp(m_discret_scheme, "BEULER") == 0) {
     this->InitBEuler();
@@ -108,13 +112,13 @@ int HeatPDE<T,U>::Init (
             TIMEE_ERR_CODE, m_discret_scheme);
     return TIMEE_ERR_CODE;
   }
-  
+
   // apply Dirichlet boundary conditions
   this->InitDirichlet();
-  
+
   // factorize
   this->InitLDLt();
-  
+
   // -- solver
 //  m_solver.SetSolver("LDLT");
 //  m_solver.Setup(m_mat_A);
@@ -139,7 +143,7 @@ int HeatPDE<T,U>::Finalize ( void ) {
 //  m_vec_U0 = NULL;
   m_numb_step = 0;
 //  m_vec_U = NULL;
-  
+
   // -- file I/O
   m_flag_fout = 0;
 
@@ -167,7 +171,7 @@ int HeatPDE<T,U>::ConfigFileOutput (
     strcpy(m_vec_U_fformat, vec_U_fformat);
     strcpy(m_vec_U_ftype, vec_U_ftype);
     m_flag_fout = 1;
-    
+
     // -- uppercase keywords
     for (unsigned int i = 0; i < strlen(m_vec_U_fformat); i++) {
       m_vec_U_fformat[i] = toupper(m_vec_U_fformat[i]);
@@ -188,10 +192,10 @@ int HeatPDE<T,U>::InitBEuler ( void ) {
 
   // -- set A = M + dt K
 //  m_mat_A = (*m_mat_M) + (*m_mat_K) * m_time_step;
-  
+
   // -- set B = M
 //  m_mat_B = (*m_mat_M);
-  
+
   // -- set C = dt F + H
 //  m_vec_C = (*m_vec_H);
 //  Blap1::Saxpy<T,U>(m_time_step, (*m_vec_F), m_vec_C);
@@ -215,13 +219,13 @@ int HeatPDE<T,U>::InitTRule ( void ) {
 //!    |  0  1 | Un+1 = |  0   0  | Un + |       d      |
 template <typename T, typename U>
 int HeatPDE<T,U>::InitDirichlet ( void ) {
-  
+
   // -- get number of DOF
 //  U numb_dof = m_vec_C.GetSize();
   U numb_dof;
-  
+
   // -- build constraint values and mask on all DOF
-  
+
   // initializei
   int* dof_mask = new int[numb_dof];
   T* dof_val = new T[numb_dof];
@@ -234,7 +238,7 @@ int HeatPDE<T,U>::InitDirichlet ( void ) {
     dof_mask[m_dirich_dof[i]] = 1;
     dof_val[m_dirich_dof[i]] = m_dirich_val[i];
   }
-  
+
   // -- update linear system
   //    | Aii Aif |        | Bii Bif |      | Ci |
   //    | Afi Aff | Un+1 = | Bfi Bff | Un + | Cf |
@@ -251,7 +255,7 @@ int HeatPDE<T,U>::InitDirichlet ( void ) {
 //      }
     }
   }
-  
+
   // -- finalize
   delete[] dof_mask;
   delete[] dof_val;
@@ -265,7 +269,7 @@ int HeatPDE<T,U>::InitDirichlet ( void ) {
 //!           A Un+1 = B Un + C
 template <typename T, typename U>
 int HeatPDE<T,U>::InitLDLt ( void ) {
-  
+
   return TIMEE_SUCCESS;
 }
 
@@ -280,19 +284,19 @@ int HeatPDE<T,U>::InitLDLt ( void ) {
 //! @internal See header file.
 template <typename T, typename U>
 int HeatPDE<T,U>::Integrate ( void ) {
-  
+
   // -- init
-  
+
   // error code
   int err = TIMEE_SUCCESS;
-  
+
   // solution
 //  (*m_vec_U) = (*m_vec_U0);
 
   // -- integrate without file output
   if (!m_flag_fout) {
   }
-  
+
   // -- integrate with file output
   else {
   }

@@ -20,6 +20,10 @@
 //#include <Alinea/Vector.hpp>
 //#include <Alinea/Solver.hpp>
 
+// Including Eigen library
+
+#include </Users/TM/Travail/Programming/C/libraries/Eigen/Dense>
+
 // Other third-party headers
 
 //! @class HeatPDE
@@ -39,15 +43,19 @@ class HeatPDE {
 
     //! Mass matrix.
 //    Matrix<T,U>* m_mat_M;
+    Eigen::Matrix<T,U,U>* m_mat_M;
 
     //! Stiffness matrix.
 //    Matrix<T,U>* m_mat_K;
+    Eigen::Matrix<T,U,U>* m_mat_K;
 
     //! Source vector.
 //    Vector<T,U>* m_vec_F;
+    Eigen::Matrix<T,U,1>* m_vec_F;
 
     //! Neumann boundary conditions vector.
-//    Vector<T,U>* m_vec_H; 
+//    Vector<T,U>* m_vec_H;
+    Eigen::Matrix<T,U,1>* m_vec_H;
 
     //! Number of Dirichlet boundary DOF.
     U m_numb_dirich;
@@ -60,13 +68,14 @@ class HeatPDE {
 
     //! Initial value vector.
 //    Vector<T,U>* m_vec_U0;
+    Eigen::Matrix<T,U,1>* m_vec_U0;
 
     //! Time step.
     T m_time_step;
 
     //! Number of time steps.
     U m_numb_step;
-    
+
     //! Time discretization scheme (BEULER [default], TRULE)
     char m_discret_scheme[TIMEE_BUFSIZE_XXS];
 
@@ -78,6 +87,8 @@ class HeatPDE {
 
     //! Solution vector at the final time step.
 //    Vector<T,U>* m_vec_U;
+    Eigen::Matrix<T,U,1>* m_vec_U;
+
 
   // ---------------------------------------------------------------------------
   // -- Configuration attributes
@@ -108,10 +119,14 @@ class HeatPDE {
 //    Matrix<T,U> m_mat_A;
 //    Matrix<T,U> m_mat_B;
 //    Vector<T,U> m_vec_C;
-    
+
+      Eigen::Matrix<T,U,U>* m_mat_A;
+      Eigen::Matrix<T,U,U>* m_mat_B;
+      Eigen::Matrix<T,U,U>* m_mat_C;
+
     //! Solver.
 //    Solver<T,U> m_solver;
-    
+
     //! File output activation flag.
     short m_flag_fout;
 
@@ -131,6 +146,13 @@ class HeatPDE {
 //        Matrix<T,U>* mat_K,
 //        Vector<T,U>* vec_F,
 //        Vector<T,U>* vec_H,
+
+          Eigen::Matrix<T,U,1>* m_vec_U;
+          Eigen::Matrix<T,U,U>* m_mat_M;
+          Eigen::Matrix<T,U,U>* m_mat_K;
+          Eigen::Matrix<T,U,1>* m_vec_F;
+          Eigen::Matrix<T,U,1>* m_vec_H;
+
         U numb_dirich,
         U* dirich_dof,
         T* dirich_val,
@@ -149,7 +171,7 @@ class HeatPDE {
         const char* vec_U_fsuff,
         const char* vec_U_fformat = "MTX",
         const char* vec_U_ftype = "ASCII" ) ;
-    
+
   private:
 
     //! @brief Initializes and enables Backward Euler integration scheme.
