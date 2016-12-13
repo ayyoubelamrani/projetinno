@@ -16,13 +16,7 @@
 #include <TIMEE/TIMEEConst.hpp>
 
 // MRG third-party headers
-//#include <Alinea/Matrix.hpp>
-//#include <Alinea/Vector.hpp>
-//#include <Alinea/Solver.hpp>
-
-// Including Eigen library
-
-#include </Users/TM/Travail/Programming/C/libraries/Eigen/Dense>
+#include <Eigen/Dense>
 
 // Other third-party headers
 
@@ -43,19 +37,15 @@ class HeatPDE {
 
     //! Mass matrix.
 //    Matrix<T,U>* m_mat_M;
-    Eigen::Matrix<T,U,U>* m_mat_M;
-
+    Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic>* m_mat_M;
     //! Stiffness matrix.
 //    Matrix<T,U>* m_mat_K;
-    Eigen::Matrix<T,U,U>* m_mat_K;
 
     //! Source vector.
 //    Vector<T,U>* m_vec_F;
-    Eigen::Matrix<T,U,1>* m_vec_F;
 
     //! Neumann boundary conditions vector.
-//    Vector<T,U>* m_vec_H;
-    Eigen::Matrix<T,U,1>* m_vec_H;
+//    Vector<T,U>* m_vec_H; 
 
     //! Number of Dirichlet boundary DOF.
     U m_numb_dirich;
@@ -68,14 +58,13 @@ class HeatPDE {
 
     //! Initial value vector.
 //    Vector<T,U>* m_vec_U0;
-    Eigen::Matrix<T,U,1>* m_vec_U0;
-
+    Eigen::Matrix<T,Eigen::Dynamic,1>* m_vec_U0;
     //! Time step.
     T m_time_step;
 
     //! Number of time steps.
     U m_numb_step;
-
+    
     //! Time discretization scheme (BEULER [default], TRULE)
     char m_discret_scheme[TIMEE_BUFSIZE_XXS];
 
@@ -87,9 +76,7 @@ class HeatPDE {
 
     //! Solution vector at the final time step.
 //    Vector<T,U>* m_vec_U;
-    Eigen::Matrix<T,U,1>* m_vec_U;
-
-
+    Eigen::Matrix<T,Eigen::Dynamic,1>* m_vec_U;
   // ---------------------------------------------------------------------------
   // -- Configuration attributes
   // ---------------------------------------------------------------------------
@@ -119,14 +106,10 @@ class HeatPDE {
 //    Matrix<T,U> m_mat_A;
 //    Matrix<T,U> m_mat_B;
 //    Vector<T,U> m_vec_C;
-
-      Eigen::Matrix<T,U,U>* m_mat_A;
-      Eigen::Matrix<T,U,U>* m_mat_B;
-      Eigen::Matrix<T,U,U>* m_mat_C;
-
+    
     //! Solver.
 //    Solver<T,U> m_solver;
-
+    
     //! File output activation flag.
     short m_flag_fout;
 
@@ -142,24 +125,20 @@ class HeatPDE {
     //! @brief Initializes attributes.
     int Init (
 //        Vector<T,U>* vec_U,
+    Eigen::Matrix<T,Eigen::Dynamic,1>* vec_U,
 //        Matrix<T,U>* mat_M,
+    Eigen::Matrix<T,Eigen::Dynamic,Eigen::Dynamic>* mat_M,
 //        Matrix<T,U>* mat_K,
 //        Vector<T,U>* vec_F,
 //        Vector<T,U>* vec_H,
-
-          Eigen::Matrix<T,U,1>* m_vec_U;
-          Eigen::Matrix<T,U,U>* m_mat_M;
-          Eigen::Matrix<T,U,U>* m_mat_K;
-          Eigen::Matrix<T,U,1>* m_vec_F;
-          Eigen::Matrix<T,U,1>* m_vec_H;
-
         U numb_dirich,
         U* dirich_dof,
         T* dirich_val,
 //        Vector<T,U>* vec_U0,
+    Eigen::Matrix<T,Eigen::Dynamic,1>* vec_U0,
         T time_step,
         U numb_step,
-        const char* discret_scheme = "BEULER") ;
+        const char* discret_scheme = "FEULER") ;
 
     //! @brief Restores attributes to default values.
     int Finalize ( void ) ;
@@ -171,7 +150,7 @@ class HeatPDE {
         const char* vec_U_fsuff,
         const char* vec_U_fformat = "MTX",
         const char* vec_U_ftype = "ASCII" ) ;
-
+    
   private:
 
     //! @brief Initializes and enables Backward Euler integration scheme.
@@ -185,6 +164,9 @@ class HeatPDE {
 
     //! @brief Factorizes the linear system matrix.
     int InitLDLt ( void ) ;
+    
+    //! @brief Initializes and enables Forward Euler integration scheme.
+    int InitFEuler ( void ) ;
 
   // ---------------------------------------------------------------------------
   // -- Processing methods
