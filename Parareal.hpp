@@ -15,9 +15,9 @@
 #include <TIMEE/HeatPDE.hpp>
 
 // MRG third-party headers
-#include <JACKComm.hpp>
 
 // Other third-party headers
+#include <mpi.h>
 
 //! @class Parareal
 //! @brief Integrates time-dependent equations using the Parareal scheme.
@@ -78,7 +78,7 @@ class Parareal {
     
     //! Communication tool.
     //! @see JACKComm::Init.
-    JACKComm<T,U> m_jack_comm;
+  
     MPI_Comm m_mpi_comm;
     U m_rank;
     U m_numb_sneighb;

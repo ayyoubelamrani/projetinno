@@ -135,12 +135,12 @@ int Parareal<T,U>::InitHeatPDE (
 
   // -- communicator
 //  m_recv_buf[0] = m_vec_U0.GetCoef();
-  m_jack_comm.Init(m_recv_buf, m_res_norm,
+/*  m_jack_comm.Init(m_recv_buf, m_res_norm,
                    m_sbuf_size, m_rbuf_size, m_send_buf, 1, m_res_buf,
                    m_numb_sneighb, m_numb_rneighb,
                    m_sneighb_rank, m_rneighb_rank,
                    0,
-                   m_mpi_comm);
+                   m_mpi_comm);*/
 
   return TIMEE_SUCCESS;
 }
@@ -152,7 +152,7 @@ template <typename T, typename U>
 int Parareal<T,U>::FinalizeHeatPDE ( void ) {
 
   // -- communicator
-  m_jack_comm.Finalize() ;
+//  m_jack_comm.Finalize() ;
 
   // -- integrators
   m_fine_heatpde.Finalize();
@@ -240,14 +240,14 @@ int Parareal<T,U>::IntegrateHeatPDE ( void ) {
   while (((*m_res_norm) >= m_res_thresh) && ((*m_numb_iter) < m_rank)) {
     
     // -- recv Un<k+1>
-    m_jack_comm.Recv();
+//    m_jack_comm.Recv();
     
     // -- send Un+1<k+1>
-    m_jack_comm.Send();
+//    m_jack_comm.Send();
     
     // -- eval |Un+1<k+1> - Un+1<k>|
 //    (*m_res_buf) = vec_local_res.NormL2();
-    m_jack_comm.UpdateResidual();
+//    m_jack_comm.UpdateResidual();
     
     // -- k := k+1
     (*m_numb_iter)++;
